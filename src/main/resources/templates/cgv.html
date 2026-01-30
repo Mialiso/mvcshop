@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="~{_layout :: header(_,_,_)}">
+    <title>Pas ce titre... (celui par défaut)</title>
+</head>
+<body>
+    <nav th:replace="~{_layout::menu}"></nav>
+    <div class="container">
+        <h1>Nos conditions générales</h1>
+        <div class="row">
+            <div class="col-sm-6 col-xl-2"  th:each="i : ${#numbers.sequence(1,10)}">
+                <div class="card border-primary mb-3" style="max-width: 20rem;">
+                    <div class="card-header">Condition <span th:text="${i}">X</span> [[${i}]]</div>
+                    <div class="card-body">
+                        <h4 class="card-title"></h4>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>
