@@ -17,12 +17,12 @@ public class MvcShopApplication {
 	@Bean
 	CommandLineRunner initBDD(ProduitRepository repo){
 		return args->{
-			repo.save(new Produit("AngeRajoelina", 1, 10)); 
-			repo.save(new Produit("Ramanonaka", 50, 120)); 
-			repo.save(new Produit("Lovia", 10, 120)); 
-			repo.save(new Produit("Basy", 120, 120)); 
-			repo.save(new Produit("Ramy", 2, 120)); 
-			repo.save(new Produit("Vary", 2, 120)); 
+			// repo.save(new Produit("AngeRajoelina", 1, 10)); 
+			// repo.save(new Produit("Ramanonaka", 50, 120)); 
+			// repo.save(new Produit("Lovia", 10, 120)); 
+			// repo.save(new Produit("Basy", 120, 120)); 
+			// repo.save(new Produit("Ramy", 2, 120)); 
+			// repo.save(new Produit("Vary", 2, 120)); 
 			repo.findAll().forEach(System.out::println);
 		};
 	}
