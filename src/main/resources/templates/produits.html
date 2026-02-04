@@ -2,12 +2,12 @@
 <html lang="fr" xmlns:th="https://www.thymeleaf.org">
 
 <head th:replace="~{_layout :: header(~{::title},_,~{::script})}">
-   <title>Accueil MM</title>
+    <title>Accueil MM</title>
 
     <script th:fragment="script">
-        function confDelProd(e){
-            if (!confirm('Voulez vous supprimer ce produit ?')){
-                e.preventDefault(); 
+        function confDelProd(e) {
+            if (!confirm('Voulez vous supprimer ce produit ?')) {
+                e.preventDefault();
             }
         }
     </script>
@@ -16,7 +16,11 @@
 <body>
     <nav th:replace="~{_layout::menu}"></nav>
     <div class="container">
-        <h1>En boutique aujourd'hui <i class="fa-solid fa-dice"></i></h1>
+        <div class="mt-2 d-flex justify-content-between">
+            <h1>En boutique aujourd'hui <i class="fa-solid fa-dice"></i></h1>
+            <button class="btn btn-primary">Nouveau</button>
+        </div>
+        
         <div>
             <form th:action="@{/produits}" method="GET">
                 <div class="form-group">
@@ -30,14 +34,14 @@
             </form>
             <!-- ajout "éventuel" hidden "p" pour conserver la page  -->
 
-           <form th:action="@{/produits}" method="GET">
-            <input type="hidden" name="s" th:value="${page.size}">
-            <div class="form-group">
-                <!-- <label for="mac">Recherche :</label> -->
-                <input type="text" name="mc" id="mc" th:value="${motcle}" class ="form-control">
-                <button class="btn btn-primary" type="submit">Rechercher </button>
-            </div>
-           </form>
+            <form th:action="@{/produits}" method="GET">
+                <input type="hidden" name="s" th:value="${page.size}">
+                <div class="form-group">
+                    <!-- <label for="mac">Recherche :</label> -->
+                    <input type="text" name="mc" id="mc" th:value="${motcle}" class="form-control">
+                    <button class="btn btn-primary" type="submit">Rechercher </button>
+                </div>
+            </form>
         </div>
         <table class="table table-hover">
             <thead>
@@ -53,22 +57,29 @@
                     <td th:text="${p.quantite<=0 ? 'non dispobible' : p.quantite}"></td>
                     <td>
                         <a href="#" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i></a>
-                        <a th:href="@{/produitDelete(id=${p.id}, p=${page.number}, s=${page.size}, mc=${motcle})}" class="btn btn-primary"><i class="fa-solid fa-trash-can"></i></a>
+                        <a th:href="@{/produitDelete(id=${p.id}, p=${page.number}, s=${page.size}, mc=${motcle})}"
+                            class="btn btn-primary" onclick="confDelProd(event)">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </a>
+
                     </td>
                 </tr>
             </thead>
         </table>
-        <div>
+        <div th:if="${page.totalPages>1}"></div>
             <ul class="pagination pagination-sm">
                 <li class="page-item" th:classappend="${page.number==0} ? 'disabled' : '' ">
-                    <a class="page-link" th:href="@{/produits(p=${page.number-1}, s=${page.size}, mc=${motcle})}">&laquo;</a>
+                    <a class="page-link"
+                        th:href="@{/produits(p=${page.number-1}, s=${page.size}, mc=${motcle})}">&laquo;</a>
                 </li>
                 <li class="page-item active" th:classappend="${i==page.number+1} ? 'active' : '' "
                     th:each="i : ${#numbers.sequence(1, page.totalPages)}">
-                    <a class="page-link" th:href="@{/produits(p=${i-1}, s=${page.size}, mc=${motcle})}" th:text="${i}">?</a>
+                    <a class="page-link" th:href="@{/produits(p=${i-1}, s=${page.size}, mc=${motcle})}"
+                        th:text="${i}">?</a>
                 </li>
                 <li class="page-item" th:classappend="${page.last} ? 'disabled' : '' ">
-                    <a class="page-link" th:href="@{/produits(p=${page.number+1}, s=${page.size}, mc=${motcle})}">&raquo;</a>
+                    <a class="page-link"
+                        th:href="@{/produits(p=${page.number+1}, s=${page.size}, mc=${motcle})}">&raquo;</a>
                 </li>
             </ul>
         </div>

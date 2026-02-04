@@ -1,6 +1,7 @@
 package fr.iut.mvcshop.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -8,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -55,6 +57,39 @@ public class ProduitController {
         redirectAttributes.addAttribute("s", s);
         redirectAttributes.addAttribute("mc", mc);
         return "redirect:/produits";
+    }
+
+       @GetMapping("/produitform")
+    public String editProduits(
+            @RequestParam(defaultValue = "0") Long id,
+            @RequestParam(value = "p", defaultValue = "0") int page, 
+            @RequestParam(value = "s", defaultValue = "5") int size, 
+            @RequestParam(value = "mc", defaultValue = "") String motCle, 
+            Model model){
+        if (id>0){
+            Optional <Produit> optPro = this.repo.findById(id);
+            if (optPro.isPresent()){
+                model.addAttribute("produit", optPro.get());
+            }else{
+                return "redirect:/"; //produit non trouvé (mais id donnée) ?? 
+            }
+        }else {
+            model.addAttribute("produit", new Produit()); 
+        }
+         
+        model.addAttribute("p", page);
+        model.addAttribute("s", size);
+        model.addAttribute("mc", motCle);
+        return"produitform"; 
+    }
+    @PostMapping("produitSave")
+    public String sauverProduit(Produit produit, int p, int s, String mc, RedirectAttributes redirectAttributes)
+    {
+        this.repo.save(produit); 
+        redirectAttributes.addAttribute( "p", p); 
+        redirectAttributes.addAttribute( "s", s); 
+        redirectAttributes.addAttribute( "mc", mc); 
+        return "redirect/produits"; 
     }
 }
 
