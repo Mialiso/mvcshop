@@ -18,9 +18,10 @@
     <div class="container">
         <div class="mt-2 d-flex justify-content-between">
             <h1>En boutique aujourd'hui <i class="fa-solid fa-dice"></i></h1>
-            <button class="btn btn-primary">Nouveau</button>
+            <a th:href="@{/produitform(p=${page.number}, s=${page.size}, mc=${motcle})}"
+                class="btn btn-primary">Nouveau</a>
         </div>
-        
+
         <div>
             <form th:action="@{/produits}" method="GET">
                 <div class="form-group">
@@ -56,7 +57,8 @@
                     <td th:text="${#numbers.formatDecimal(p.prix,1,2, 'COMMA')+'&euro;'}"></td>
                     <td th:text="${p.quantite<=0 ? 'non dispobible' : p.quantite}"></td>
                     <td>
-                        <a href="#" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <a th:href="@{/produitform(p=${page.number}, s=${page.size}, mc=${motcle})}"
+                            class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i></a>
                         <a th:href="@{/produitDelete(id=${p.id}, p=${page.number}, s=${page.size}, mc=${motcle})}"
                             class="btn btn-primary" onclick="confDelProd(event)">
                             <i class="fa-solid fa-trash-can"></i>
@@ -67,22 +69,21 @@
             </thead>
         </table>
         <div th:if="${page.totalPages>1}"></div>
-            <ul class="pagination pagination-sm">
-                <li class="page-item" th:classappend="${page.number==0} ? 'disabled' : '' ">
-                    <a class="page-link"
-                        th:href="@{/produits(p=${page.number-1}, s=${page.size}, mc=${motcle})}">&laquo;</a>
-                </li>
-                <li class="page-item active" th:classappend="${i==page.number+1} ? 'active' : '' "
-                    th:each="i : ${#numbers.sequence(1, page.totalPages)}">
-                    <a class="page-link" th:href="@{/produits(p=${i-1}, s=${page.size}, mc=${motcle})}"
-                        th:text="${i}">?</a>
-                </li>
-                <li class="page-item" th:classappend="${page.last} ? 'disabled' : '' ">
-                    <a class="page-link"
-                        th:href="@{/produits(p=${page.number+1}, s=${page.size}, mc=${motcle})}">&raquo;</a>
-                </li>
-            </ul>
-        </div>
+        <ul class="pagination pagination-sm">
+            <li class="page-item" th:classappend="${page.number==0} ? 'disabled' : '' ">
+                <a class="page-link"
+                    th:href="@{/produits(p=${page.number-1}, s=${page.size}, mc=${motcle})}">&laquo;</a>
+            </li>
+            <li class="page-item active" th:classappend="${i==page.number+1} ? 'active' : '' "
+                th:each="i : ${#numbers.sequence(1, page.totalPages)}">
+                <a class="page-link" th:href="@{/produits(p=${i-1}, s=${page.size}, mc=${motcle})}" th:text="${i}">?</a>
+            </li>
+            <li class="page-item" th:classappend="${page.last} ? 'disabled' : '' ">
+                <a class="page-link"
+                    th:href="@{/produits(p=${page.number+1}, s=${page.size}, mc=${motcle})}">&raquo;</a>
+            </li>
+        </ul>
+    </div>
     </div>
 
 

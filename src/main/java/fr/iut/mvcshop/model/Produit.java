@@ -4,15 +4,28 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Produit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; 
+
+    @NotNull
+    @Size(min = 3, max = 30)
     private String nom; 
+
+    @NotNull
+    @DecimalMin("0.01")
     private double prix; 
+
+    @NotNull
+    @DecimalMin("0")
     private int quantite;
+    
     public Produit() {
     }
     public Produit(String nom, double prix, int quantite) {
